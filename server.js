@@ -25,6 +25,17 @@ app.route('/')
     res.sendFile(process.cwd() + '/views/index.html');
   }); 
 
+app.use((req, res, next) => {
+  res.header('X-Content-Type-Options', 'nosniff');
+  res.header('X-XSS-Protection', '1; mode=block');
+  res.header('Surrogate-Control', 'no-store');
+  res.header('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.header('Pragma', 'no-cache');
+  res.header('Expires', '0');
+  res.setHeader('X-Powered-By', "PHP 7.4.3");
+  next();
+});
+
 //For FCC testing purposes
 fccTestingRoutes(app);
     
